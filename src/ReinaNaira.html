@@ -1,0 +1,703 @@
+!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Reina Naira</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  background: #0f0c29;
+  color: #1e293b;
+  line-height: 1.6;
+  min-height: 100vh;
+  padding-left: 80px;
+  background-image: 
+    radial-gradient(circle at 10% 20%, rgba(255, 0, 255, 0.1) 0%, transparent 20%),
+    radial-gradient(circle at 90% 80%, rgba(0, 255, 255, 0.1) 0%, transparent 20%),
+    linear-gradient(to bottom, #0f0c29, #302b63, #24243e);
+}
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+body::before {
+  top: 10px;
+  left: 10px;
+  border-right: none;
+  border-bottom: none;
+}
+body::after {
+  top: 10px;
+  right: 10px;
+  border-left: none;
+  border-bottom: none;
+}
+section::before {
+  bottom: 10px;
+  left: 10px;
+  border-right: none;
+  border-top: none;
+}
+section::after {
+  bottom: 10px;
+  right: 10px;
+  border-left: none;
+  border-top: none;
+}
+
+/* SIDEBAR */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 80px;
+  background: #0f172a;
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 2rem;
+  transition: width 0.3s ease;
+}
+
+.sidebar:hover {
+  width: 220px;
+}
+
+.sidebar:hover .nav-text {
+  display: inline;
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.nav-item {
+  width: 100%;
+  padding: 1rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #94a3b8;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.nav-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: #e2e8f0;
+}
+
+.nav-icon {
+  font-size: 1.5rem;
+  min-width: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.nav-text {
+  font-weight: 500;
+  white-space: nowrap;
+  display: none;
+  opacity: 0;
+  transform: translateX(-20px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.nav-item.active {
+  color: #ffffff;
+}
+
+.nav-item.active::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 4px;
+  background: #3b82f6;
+}
+
+/* MAIN CONTENT */
+.main-content {
+  padding: 2rem;
+}
+
+/* SECTIONS */
+section {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 2.5rem;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+section.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+section h2 {
+  font-weight: 700;
+  font-size: 1.75rem;
+  margin-bottom: 1.5rem;
+  color: #1e293b;
+  position: relative;
+  padding-bottom: 0.5rem;
+}
+
+section h2::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 50px;
+  height: 3px;
+  background: #3b82f6;
+  border-radius: 3px;
+}
+@keyframes scanline {
+  0% { top: 0; }
+  100% { top: 100%; }
+}
+
+/* ABOUT ME */
+.about-me {
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+}
+
+.about-me img {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  margin-bottom: 1.8rem;
+  transition: transform 0.6s ease, filter 0.6s ease;
+  cursor: pointer;
+  filter: drop-shadow(0 0 10px royalblue);
+}
+.about-me img:hover {
+  transform: scale(1.2) rotate(10deg);
+}
+
+.about-content h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: #1e293b;
+}
+
+.about-content h2 {
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: #64748b;
+  margin-bottom: 1.5rem;
+}
+
+.about-content p {
+  color: #475569;
+  margin-bottom: 1.5rem;
+  line-height: 1.7;
+}
+
+/* SERVICES */
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.service-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 2rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.service-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+.service-card i {
+  font-size: 2.5rem;
+  color: #3b82f6;
+  margin-bottom: 1rem;
+}
+
+.service-card h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #1e293b;
+}
+
+.service-card p {
+  color: #64748b;
+  line-height: 1.7;
+}
+
+/* EDUCATION */
+.education-item {
+  display: flex;
+  gap: 2rem;
+  padding: 1.5rem 0;
+  border-bottom: 1px solid #e2e8f0;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.6s ease;
+}
+.education-item.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.education-item:last-child {
+  border-bottom: none;
+}
+
+.education-year {
+  min-width: 120px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.education-content h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #1e293b;
+}
+
+.education-content p {
+  color: #64748b;
+}
+
+/* SKILLS */
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+}
+
+.skill-item {
+  background: #f1f5f9;
+  padding: 1.5rem;
+  border-radius: 8px;
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.skill-item:hover {
+  transform: translateY(-5px);
+}
+
+.skill-item i {
+  font-size: 2rem;
+  color: #3b82f6;
+  margin-bottom: 1rem;
+}
+
+.skill-item h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #1e293b;
+}
+
+.skill-item p {
+  color: #64748b;
+  font-size: 0.9rem;
+}
+
+/* CONTACT */
+.contact-container {
+  display: flex;
+  gap: 3rem;
+}
+
+.contact-info {
+  flex: 1;
+}
+
+.contact-info h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  color: #1e293b;
+}
+
+.contact-detail {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  color: #475569;
+}
+
+.contact-detail i {
+  color: #3b82f6;
+  font-size: 1.25rem;
+}
+
+.contact-form {
+  flex: 1;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #475569;
+  font-weight: 500;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-family: inherit;
+  transition: border-color 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #3b82f6;
+}
+
+.form-group textarea {
+  min-height: 150px;
+  resize: vertical;
+}
+
+.btn {
+  background: #3b82f6;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.btn:hover {
+  background: #2563eb;
+}
+
+/* SOCIAL MEDIA */
+.social-links {
+  display: flex;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.social-links a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #e2e8f0;
+  color: #64748b;
+  transition: all 0.3s ease;
+}
+
+.social-links a:hover {
+  background: #3b82f6;
+  color: white;
+  transform: translateY(-3px);
+}
+
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  body {
+    padding-left: 0;
+    padding-bottom: 80px;
+  }
+  
+  .sidebar {
+    width: 100%;
+    height: 80px;
+    bottom: 0;
+    top: auto;
+    flex-direction: row;
+    padding-top: 0;
+  }
+  
+  .sidebar:hover {
+    width: 100%;
+  }
+  
+  .nav-item {
+    padding: 0;
+    height: 100%;
+  }
+  
+  .nav-text {
+    display: none !important;
+  }
+  
+  .about-me {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .contact-container {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 600px) {
+  section {
+    padding: 1.5rem;
+  }
+  
+  .about-me img {
+    width: 150px;
+    height: 150px;
+  }
+  
+  .about-content h1 {
+    font-size: 2rem;
+  }
+  
+  .services-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .skills-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- Sidebar Navigation -->
+<div class="sidebar">
+  <a href="#about-me" class="nav-item">
+    <div class="nav-icon">
+      <i class="bi bi-person-fill"></i>
+    </div>
+    <span class="nav-text">About Me</span>
+  </a>
+  <a href="#services" class="nav-item">
+    <div class="nav-icon">
+      <i class="bi bi-briefcase-fill"></i>
+    </div>
+    <span class="nav-text">Services</span>
+  </a>
+  <a href="#education" class="nav-item">
+    <div class="nav-icon">
+      <i class="bi bi-mortarboard-fill"></i>
+    </div>
+    <span class="nav-text">Education</span>
+  </a>
+  <a href="#skills" class="nav-item">
+    <div class="nav-icon">
+      <i class="bi bi-lightbulb-fill"></i>
+    </div>
+    <span class="nav-text">Skills</span>
+  </a>
+  <a href="#contact" class="nav-item">
+    <div class="nav-icon">
+      <i class="bi bi-envelope-fill"></i>
+    </div>
+    <span class="nav-text">Contact</span>
+  </a>
+</div>
+
+<div class="main-content">
+  <section id="about-me">
+    <div class="about-me">
+      <img src="WhatsApp Image 2025-05-27 at 20.09.27_01fb003d.jpg" alt="Reina Naira" />
+      <div class="about-content">
+        <h1>Reina Naira</h1>
+        <h2>Information Systems Student</h2>
+        <p>Saya adalah mahasiswi Sistem Informasi di Universitas Muhammadiyah Sumatera Utara yang berfokus pada pengembangan teknologi informasi dan solusi digital. Dengan latar belakang akademik yang kuat dan ketertarikan mendalam pada pengembangan web serta desain antarmuka pengguna, saya berkomitmen untuk terus meningkatkan kemampuan teknis dan kreativitas dalam menciptakan produk yang berdampak positif.</p>
+        <div class="social-links">
+          <a href="https://wa.me/+6282184841945" target="_blank"><i class="bi bi-whatsapp"></i></a>
+          <a href="https://instagram.com/iam.einaa" target="_blank"><i class="bi bi-instagram"></i></a>
+          <a href="https://instagram.com/einanairaa" target="_blank"><i class="bi bi-instagram"></i></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="services">
+    <h2>Services</h2>
+    <div class="services-grid">
+      <div class="service-card">
+        <i class="bi bi-laptop"></i>
+        <h3>Web Development</h3>
+        <p>Membangun website modern dengan teknologi terkini dan performa optimal untuk kebutuhan bisnis atau pribadi Anda.</p>
+      </div>
+      <div class="service-card">
+        <i class="bi bi-palette"></i>
+        <h3>UI/UX Design</h3>
+        <p>Membuat desain antarmuka yang menarik, intuitif, dan memberikan pengalaman pengguna yang optimal.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="education">
+    <h2>Education</h2>
+    <div class="education-item">
+      <div class="education-year">2023 - Present</div>
+      <div class="education-content">
+        <h3>Bachelor of Information Systems</h3>
+        <p>Universitas Muhammadiyah Sumatera Utara</p>
+      </div>
+    </div>
+    <div class="education-item">
+      <div class="education-year">2020 - 2023</div>
+      <div class="education-content">
+        <h3>Senior High School</h3>
+        <p>SMAN 2 Medan</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills">
+    <h2>Skills</h2>
+    <div class="skills-grid">
+      <div class="skill-item">
+        <i class="bi bi-code-square"></i>
+        <h3>Pemahaman Bahasa Pemograman</h3>
+        <p>Mengerti dasar-dasar berbagai bahasa pemrograman dan mampu menerapkannya dalam pemecahan masalah secara efektif dan terstruktur.</p>
+      </div>
+      <div class="skill-item">
+        <i class="bi bi-search"></i>
+        <h3>Kemampuan Analisis & Berpikir Logis</h3>
+        <p>Mampu menganalisis masalah secara mendalam dan berpikir logis serta sistematis untuk menemukan solusi yang tepat dan efisien.</p>
+      </div>
+      <div class="skill-item">
+        <i class="bi bi-megaphone"></i>
+        <h3>Keterampilan Komunikasi</h3>
+        <p>Terampil dalam menyampaikan ide dan informasi secara jelas dan efektif, baik secara lisan maupun tulisan dalam konteks profesional.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <h2>Contact</h2>
+    <div class="contact-container">
+      <div class="contact-info">
+        <h3>Get in touch</h3>
+        <div class="contact-detail">
+          <i class="bi bi-envelope"></i>
+          <span>reinanaira5@gmail.com</span>
+        </div>
+        <div class="contact-detail">
+          <i class="bi bi-telephone"></i>
+          <span>+62 821 8484 1945</span>
+        </div>
+        <div class="contact-detail">
+          <i class="bi bi-geo-alt"></i>
+          <span>Medan, Sumatera Utara, Indonesia</span>
+        </div>
+      </div>
+      <div class="contact-form">
+        <form>
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" id="name" required />
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" required />
+          </div>
+          <div class="form-group">
+            <label for="message">Message</label>
+            <textarea id="message" required></textarea>
+          </div>
+          <button type="submit" class="btn">Send Message</button>
+        </form>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script>
+  const sections = document.querySelectorAll("section");
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        entry.target.classList.add("show");
+        observer.unobserve(entry.target);
+
+        // Tambahan animasi untuk item pendidikan
+        if (entry.target.id === "education") {
+          const items = entry.target.querySelectorAll('.education-item');
+          items.forEach((item, index) => {
+            setTimeout(() => {
+              item.classList.add('show');
+            }, index * 200);
+          });
+        }
+      }
+    });
+  }, { threshold: 0.1 });
+
+  sections.forEach(section => observer.observe(section));
+
+  document.querySelector("form").addEventListener("submit", e => {
+    e.preventDefault();
+    alert("Thank you for your message! I'll get back to you soon.");
+    e.target.reset();
+  });
+
+  const navItems = document.querySelectorAll('.nav-item');
+  const sectionIds = ['about-me', 'services', 'education', 'skills', 'contact'];
+  
+  window.addEventListener('scroll', () => {
+    let current = '';
+    
+    sectionIds.forEach(id => {
+      const section = document.getElementById(id);
+      const sectionTop = section.offsetTop;
+      const sectionHeight = section.clientHeight;
+      
+      if (pageYOffset >= (sectionTop - 200)) {
+        current = id;
+      }
+    });
+    
+    navItems.forEach(item => {
+      item.classList.remove('active');
+      if (item.getAttribute('href') === `#${current}`) {
+        item.classList.add('active');
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
+
